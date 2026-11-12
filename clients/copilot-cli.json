@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "gateway": {
+      "type": "http",
+      "url": "https://trygateway.sh/mcp",
+      "tools": [
+        "*"
+      ]
+    }
+  }
+}
