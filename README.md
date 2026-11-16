@@ -13,8 +13,7 @@
 | GitHub Copilot CLI | 运行下方命令，或将 [Copilot CLI 配置](clients/copilot-cli.json) 合并到个人 `~/.copilot/mcp-config.json` | 在 MCP 管理界面选择 Gateway 并认证 |
 | VS Code（Copilot） | 通过命令面板打开用户 MCP 配置，或将 [编辑器配置](clients/vscode.json) 合并到项目 `.vscode/mcp.json`。采用新 Copilot CLI 配置格式的环境使用上一行 | 在服务器操作中启动 Gateway，按提示选择 Authenticate |
 | Antigravity | 在 MCP Servers → Manage MCP Servers → View raw config 中合并 [Antigravity 配置](clients/antigravity.json) | 刷新服务器列表，选择 Gateway 并完成浏览器授权 |
-| DSH（推荐） | 安装本仓库的 [DSH 插件](plugin/README.md) | 在 DSH「设置 → Gateway SSH」点「添加账号」，浏览器授权；支持多账号与结果脱敏 |
-| DSH（旧方式） | 按下方「DSH 浏览器登录」配置 stdio | 在运行 DSH 的用户环境中执行登录命令；仅单账号 |
+| DSH | 按下节配置 stdio；已有支持 OAuth 的 MCP 管理插件也可直接填写服务地址并选择 OAuth | 在运行 DSH 的用户环境中执行下方登录命令 |
 
 Claude Code 用户级安装命令
 
@@ -28,11 +27,7 @@ Copilot CLI 用户级安装命令
 copilot mcp add --transport http gateway https://trygateway.sh/mcp
 ```
 
-## DSH 插件
-
-[`plugin/`](plugin/README.md) 是可直接安装到 DSH 的插件 `@lastdreamteam/dsh-gateway-ssh`：在 DSH 设置中浏览器登录、可添加多个 Gateway 账号并切换，工具结果在交给 Agent 和 DSH Bot 之前隐藏 IP 与本机名。工具名仍为 `mcp__gateway__*`。它只是新增目录，不改变本仓库给其他客户端的 MCP 配置，其他 Agent/Bot 仍可按上表把 Gateway 当普通 MCP 服务接入。从下面的旧方式迁移时，设置页可导入已有登录，导入后在 DSH 插件页停用旧的 `gateway` 条目即可。
-
-## DSH 浏览器登录（旧方式）
+## DSH 浏览器登录
 
 DSH 的内置管理器可启动 stdio 服务。这里使用固定版本的 `mcp-remote` 连接 Gateway，由它处理浏览器授权和令牌刷新。需要 Node.js 22.12 或更高版本、npm，以及从 DSH 运行环境访问 Gateway 的网络。下面三条命令在仓库根目录执行。
 
@@ -52,9 +47,7 @@ node dsh/setup.mjs config
 
 首次连接可询问「列出我的 Gateway 服务器，仅显示名称」。核对结果是否与自己在 Gateway 网页中看到的一致。新账号可能返回空列表，可先在 Gateway 页面添加一台自己管理的服务器。对同一账号授权给多个客户端时，各客户端独立保存连接。要换号，先在 Gateway 撤销原客户端授权，在客户端断开该连接，再用目标账号重新登录。DSH 使用独立系统用户可同时保留各自的登录。
 
-使用 DSH 插件时，多个账号可在设置页同时保留，用「使用此账号」切换。
-
-本仓库提供连接配置、DSH 插件和 DSH 辅助程序，采用 **AGPL-3.0-only**。[许可证](LICENSE)。Gateway 服务由原厂运营，能力和账户权限以其服务端为准。
+本仓库提供连接配置和 DSH 辅助程序，采用 **AGPL-3.0-only**。[许可证](LICENSE)。Gateway 服务由原厂运营，能力和账户权限以其服务端为准。
 
 ## 文档
 
